@@ -26,3 +26,12 @@ Route::get('/', function () {
 //Route::get('films', 'FilmsController@index');
 
 Route::resource('films', 'FilmsController');
+
+Route::group(['middleware' => 'App\Http\Middleware\Admin'], function()
+{
+    Route::get('/admin', function()
+    {
+        echo  "can only access this if type == admin";
+    });
+
+});
