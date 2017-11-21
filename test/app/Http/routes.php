@@ -19,4 +19,10 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
-Route::resource('/films', 'FilmsController');
+Route::get('/', function () {
+    return redirect('films');
+});
+
+//Route::get('films', 'FilmsController@index');
+
+Route::resource('films', 'FilmsController');

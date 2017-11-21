@@ -15,7 +15,8 @@ class FilmsController extends Controller
      */
     public function index()
     {
-        //
+        $films =  \App\Films::get();
+        return view('films.list', ['films'=>$films]);
     }
 
     /**
@@ -25,7 +26,7 @@ class FilmsController extends Controller
      */
     public function create()
     {
-        //
+        return view("films.form");
     }
 
     /**
@@ -36,7 +37,7 @@ class FilmsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return \App\Films::create($request->all());
     }
 
     /**
@@ -47,7 +48,7 @@ class FilmsController extends Controller
      */
     public function show($id)
     {
-        //
+        $film = \App\Films::findOrFail($id);
     }
 
     /**
@@ -58,7 +59,8 @@ class FilmsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $film = \App\Films::findOrFail($id);
+        return view("films.form", ['film' => $film]);
     }
 
     /**
@@ -70,7 +72,11 @@ class FilmsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $film = \App\Films::findOrFail($id);
+        if ($film->update($request->all()))
+            return $film->toJson();
+        
+        return json_encode(array());
     }
 
     /**
@@ -81,6 +87,8 @@ class FilmsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $film = \App\Films::findOrFail($id);
+        $film->delete();
+        return redirect('films');
     }
 }
