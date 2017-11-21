@@ -1,15 +1,15 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
+  |--------------------------------------------------------------------------
+  | Application Routes
+  |--------------------------------------------------------------------------
+  |
+  | Here is where you can register all of the routes for an application.
+  | It's a breeze. Simply tell Laravel the URIs it should respond to
+  | and give it the controller to call when that URI is requested.
+  |
+ */
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,21 +17,16 @@ Route::get('/', function () {
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
-
 Route::get('/', function () {
     return redirect('films');
 });
 
-//Route::get('films', 'FilmsController@index');
+Route::get('films', 'FilmsController@index');
 
-Route::resource('films', 'FilmsController');
 
-Route::group(['middleware' => 'App\Http\Middleware\Admin'], function()
-{
-    Route::get('/admin', function()
-    {
-        echo  "can only access this if type == admin";
+
+Route::group(['middleware' => 'App\Http\Middleware\Admin'], function() {
+    Route::group(['prefix' => 'admin'], function () {
+        Route::resource('films', 'FilmsController');
     });
-
 });
