@@ -7,7 +7,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Films
-                    <a href="{{url('films/create')}}" class="pull-right">New film</a>
+                    @if(Request::is('admin/*'))
+                         <a href="{{url('admin/films/create')}}" class="pull-right">New film</a>
+                    @else
+                         <a href="{{url('films/create')}}" class="pull-right">New film</a>
+                    @endif
+                   
                 </div>
 
                 <div class="panel-body">
@@ -17,7 +22,9 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Release Date</th>
-                                <th scope="col">Actions</th>
+                                @if (!Auth::guest())
+                                    <th scope="col">Actions</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -25,14 +32,20 @@
                             <tr>
                                 <td>{{$film->id}}</td>
                                 <td>{{$film->name}}</td>
-                                <td>{{$film->release_date}}</td>                                
-                                <td>
-                                    <a href="{{url('films/')}}/{{$film->id}}/edit" class="btn btn-default btn-sm">Edit</a>
+                                <td>{{$film->release_date}}</td>
+                                @if (!Auth::guest())
+                                    <td>
+                                        @if(Request::is('admin/*'))
+                                        <a href="{{url('films/')}}/{{$film->id}}/edit" class="btn btn-default btn-sm">Edit</a>
+
+                                        {!! Form::open(['method'=>'DELETE', 'url'=>'films/'.$film->id, 'style'=>'display:inline;']) !!}
+                                        <button type="submit" class="btn btn-default btn-sm">Delete</button>
+                                        {!! Form::close() !!}
+                                        @endif
+                                        <a href="{{url('films/')}}/{{$film->id}}" class="btn btn-default btn-sm">Show</a>
+                                    </td>
                                     
-                                    {!! Form::open(['method'=>'DELETE', 'url'=>'films/'.$film->id, 'style'=>'display:inline;']) !!}
-                                    <button type="submit" class="btn btn-default btn-sm">Delete</button>
-                                    {!! Form::close() !!}
-                                </td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>

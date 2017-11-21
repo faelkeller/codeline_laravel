@@ -49,6 +49,7 @@ class FilmsController extends Controller
     public function show($id)
     {
         $film = \App\Films::findOrFail($id);
+        return view("films.form", ['film' => $film]);
     }
 
     /**

@@ -7,12 +7,16 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Infos Film
-                    <a href="{{url('films')}}" class="pull-right">List Films</a>
+                    @if(Request::is('admin/*'))
+                        <a href="{{url('admin/films')}}" class="pull-right">List Films</a>
+                    @else
+                        <a href="{{url('films')}}" class="pull-right">List Films</a>
+                    @endif
                 </div>
 
                 <div class="panel-body">
                     
-                    @if(Request::is('*/edit'))
+                    @if(!Request::is('*/create'))
                         {!! Form::model($film, ['method'=>'PATCH', 'url'=> 'films/'.$film->id]) !!}
                     @else
                         {!! Form::open(['url'=> 'films']) !!}

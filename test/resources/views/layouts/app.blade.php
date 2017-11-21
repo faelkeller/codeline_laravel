@@ -49,6 +49,10 @@
                 <!-- Left Side Of Navbar -->                
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/films') }}">Films</a></li>
+                    @if (Auth::user()->admin)
+                    <li><a href="{{ url('/films') }}">Country</a></li>
+                    <li><a href="{{ url('/films') }}">Genre</a></li>
+                    @endif
                 </ul>
                 @endif
 

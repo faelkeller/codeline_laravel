@@ -22,8 +22,9 @@ Route::get('/', function () {
 });
 
 Route::get('films', 'FilmsController@index');
-
-
+Route::get('films/create', 'FilmsController@create');
+Route::get('films/{id}/edit', 'FilmsController@edit');
+Route::get('films/{id}', 'FilmsController@show');
 
 Route::group(['middleware' => 'App\Http\Middleware\Admin'], function() {
     Route::group(['prefix' => 'admin'], function () {
