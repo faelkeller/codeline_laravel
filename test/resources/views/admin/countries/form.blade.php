@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
 
 @section('content')
 <div class="container">
@@ -6,18 +6,18 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Infos Genre
+                    Infos Country
                    
-                    <a href="{{url('admin/genres')}}" class="pull-right">List genres</a>
+                    <a href="{{url('admin/countries')}}" class="pull-right">List Countries</a>
                    
                 </div>
 
                 <div class="panel-body">
 
                     @if(!Request::is('*/create'))
-                    {!! Form::model($genre, ['method'=>'PATCH', 'url'=> 'admin/genres/'.$genre->id]) !!}
+                    {!! Form::model($country, ['method'=>'PATCH', 'url'=> 'admin/countries/'.$country->id]) !!}
                     @else
-                    {!! Form::open(['url'=> 'admin/genres', 'type'=>'create']) !!}
+                    {!! Form::open(['url'=> 'admin/countries', 'type'=>'create']) !!}
                     @endif
 
 

@@ -15,7 +15,7 @@ class FilmsController extends Controller {
      */
     public function index() {
         $films = \App\Film::get();        
-        return view('films.list', ['films' => $films]);
+        return view('front.films.list', ['films' => $films]);
     }
 
     /**
@@ -82,54 +82,9 @@ class FilmsController extends Controller {
         return view("films.form", ['film' => $film, 'countries' => $countries, 'genres'=>$genres]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id) {
-        $film = \App\Film::findOrFail($id);
-        $countries = \App\Country::lists("name", "id");
-        $genres = \App\Genre::lists("name", "id");
-        return view("films.form", ['film' => $film, 'countries' => $countries, 'genres'=>$genres]);
-    }
+    
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id) {
-        $film = \App\Film::findOrFail($id);
-        
-        $inputs = $request->all();
-        
-        if ($film->update($inputs)){
-            $film->genres()->sync($inputs['genres']);
-            return $film->toJson();
-        }
-            
+    
 
-        return json_encode(array());
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id) {
-        $film = \App\Film::findOrFail($id);
-        if ($film->delete())
-            return json_encode(array("id"=>$id));
-        
-        return json_encode(array());
-        
-        
-    }
-
+    
 }

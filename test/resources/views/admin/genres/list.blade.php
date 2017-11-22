@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
 
 @section('content')
 <div class="container">
@@ -7,7 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Countries
-                    <a href="{{url('admin/countries/create')}}" class="pull-right">New country</a>
+                    <a href="{{url('admin/genres/create')}}" class="pull-right">New genre</a>
                 </div>
 
                 <div class="panel-body">
@@ -20,18 +20,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($countries as $country)
-                             <tr id='{{$country->id}}'>
-                                <td>{{$country->id}}</td>
-                                <td>{{$country->name}}</td>                                
+                            @foreach($genres as $genre)
+                             <tr id='{{$genre->id}}'>
+                                <td>{{$genre->id}}</td>
+                                <td>{{$genre->name}}</td>                                
                                 <td>                                    
-                                    <a href="{{url('admin/countries/')}}/{{$country->id}}/edit" class="btn btn-default btn-sm">Edit</a>
+                                    <a href="{{url('admin/genres/')}}/{{$genre->id}}/edit" class="btn btn-default btn-sm">Edit</a>
 
-                                    {!! Form::open(['method'=>'DELETE', 'url'=>'admin/countries/'.$country->id, 'style'=>'display:inline;']) !!}
+                                    {!! Form::open(['method'=>'DELETE', 'url'=>'admin/genres/'.$genre->id, 'style'=>'display:inline;']) !!}
                                     <button type="submit" class="btn btn-default btn-sm">Delete</button>
                                     {!! Form::close() !!}
                                     
-                                    <a href="{{url('admin/countries/')}}/{{$country->id}}" class="btn btn-default btn-sm">Show</a>
+                                    <a href="{{url('admin/genres/')}}/{{$genre->id}}" class="btn btn-default btn-sm">Show</a>
                                 </td>
                             </tr>
                             @endforeach

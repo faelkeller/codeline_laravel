@@ -11,10 +11,6 @@
   |
  */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::auth();
 
 Route::get('/', function () {
@@ -23,18 +19,17 @@ Route::get('/', function () {
 
 Route::get('films', 'FilmsController@index');
 Route::get('films/create', 'FilmsController@create');
-Route::get('films/{id}/edit', 'FilmsController@edit');
 Route::get('films/{id}', 'FilmsController@show');
 Route::post('films', 'FilmsController@store');
-Route::patch('films/{id}', 'FilmsController@update');
 
 Route::post('comments', 'CommentsController@store');
 
-
-Route::group(['middleware' => 'App\Http\Middleware\Admin'], function() {
-    Route::group(['prefix' => 'admin'], function () {
-        Route::resource('films', 'FilmsController');
-        Route::resource('countries', 'CountriesController');
-        Route::resource('genres', 'GenresController');
-    });
+$router->group(['middleware' => ['App\Http\Middleware\Admin'], 'namespace' => 'Admin', 'prefix' => 'admin'], function($router)
+{
+    $router->resource('films', 'FilmsController');
+    $router->resource('countries', 'CountriesController');
+    $router->resource('genres', 'GenresController');
 });
+
+
+
