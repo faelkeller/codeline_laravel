@@ -52,7 +52,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/films') }}">Films</a></li>
                     @if (Auth::user()->admin)
-                    <li><a href="{{ url('/films') }}">Country</a></li>
+                    <li><a href="{{ url('admin/countries') }}">Countries</a></li>
                     <li><a href="{{ url('/films') }}">Genre</a></li>
                     @endif
                 </ul>
@@ -85,5 +85,6 @@
     <!-- JavaScripts -->  
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>    
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+    <script src="{{ asset('js/codeline_laravel.js') }}"></script>
 </body>
 </html>

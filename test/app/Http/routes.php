@@ -30,5 +30,6 @@ Route::post('films', 'FilmsController@store');
 Route::group(['middleware' => 'App\Http\Middleware\Admin'], function() {
     Route::group(['prefix' => 'admin'], function () {
         Route::resource('films', 'FilmsController');
+        Route::resource('countries', 'CountriesController');
     });
 });
