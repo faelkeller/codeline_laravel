@@ -53,7 +53,7 @@
                     <li><a href="{{ url('/films') }}">Films</a></li>
                     @if (Auth::user()->admin)
                     <li><a href="{{ url('admin/countries') }}">Countries</a></li>
-                    <li><a href="{{ url('/films') }}">Genre</a></li>
+                    <li><a href="{{ url('admin/genres') }}">Genres</a></li>
                     @endif
                 </ul>
                 @endif
