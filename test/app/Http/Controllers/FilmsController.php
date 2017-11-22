@@ -39,7 +39,7 @@ class FilmsController extends Controller {
             'name' => 'required',
             'description' => 'required',
             'release_date' => 'date|required',
-            'ticket_price' => 'required|numeric|max:5|min:1',
+            'ticket_price' => 'required|numeric',
             'rating' => 'required|max:5|min:1',
             'country_id' => 'required',
             'genre_id' => 'required',
@@ -50,8 +50,17 @@ class FilmsController extends Controller {
         if ($validator->fails()) {
             return json_encode(array("msg"=>$validator->messages()));
         }
+        
+        $image = $request->file('photo');
+        $name = time().'.'.$image->getClientOriginalExtension();
+        $destinationPath = public_path('/avatars');
+        $image->move($destinationPath, $name);
+        
+        $inputs = $request->all();
+        $inputs['photo'] = $name;
+        
 
-        return \App\Films::create($request->all());
+        return \App\Films::create($inputs);
     }
 
     /**
