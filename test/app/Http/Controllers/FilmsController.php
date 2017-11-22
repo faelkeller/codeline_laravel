@@ -14,7 +14,7 @@ class FilmsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $films = \App\Films::get();
+        $films = \App\Film::get();        
         return view('films.list', ['films' => $films]);
     }
 
@@ -24,7 +24,9 @@ class FilmsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return view("films.form");
+        $countries = \App\Country::lists("name", "id");
+        $genres = \App\Genre::lists("name", "id");
+        return view("films.form", ['countries' => $countries, 'genres'=>$genres]);
     }
 
     /**
@@ -37,12 +39,12 @@ class FilmsController extends Controller {
         
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'slug'=> 'required',
             'description' => 'required',
             'release_date' => 'date|required',
             'ticket_price' => 'required|numeric',
             'rating' => 'required|max:5|min:1',
             'country_id' => 'required',
-            'genre_id' => 'required',
             'photo' => 'required|file|image',
             
         ]);
@@ -57,10 +59,14 @@ class FilmsController extends Controller {
         $image->move($destinationPath, $name);
         
         $inputs = $request->all();
+        
         $inputs['photo'] = $name;
         
+        $film = \App\Film::create($inputs);
+        
+        $film->genres()->sync($inputs['genres']);
 
-        return \App\Films::create($inputs);
+        return $film;
     }
 
     /**
@@ -70,8 +76,10 @@ class FilmsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $film = \App\Films::findOrFail($id);
-        return view("films.form", ['film' => $film]);
+        $film = \App\Film::findOrFail($id);
+        $countries = \App\Country::lists("name", "id");
+        $genres = \App\Genre::lists("name", "id");
+        return view("films.form", ['film' => $film, 'countries' => $countries, 'genres'=>$genres]);
     }
 
     /**
@@ -81,8 +89,10 @@ class FilmsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $film = \App\Films::findOrFail($id);
-        return view("films.form", ['film' => $film]);
+        $film = \App\Film::findOrFail($id);
+        $countries = \App\Country::lists("name", "id");
+        $genres = \App\Genre::lists("name", "id");
+        return view("films.form", ['film' => $film, 'countries' => $countries, 'genres'=>$genres]);
     }
 
     /**
@@ -93,9 +103,15 @@ class FilmsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $film = \App\Films::findOrFail($id);
-        if ($film->update($request->all()))
+        $film = \App\Film::findOrFail($id);
+        
+        $inputs = $request->all();
+        
+        if ($film->update($inputs)){
+            $film->genres()->sync($inputs['genres']);
             return $film->toJson();
+        }
+            
 
         return json_encode(array());
     }
@@ -107,7 +123,7 @@ class FilmsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        $film = \App\Films::findOrFail($id);
+        $film = \App\Film::findOrFail($id);
         if ($film->delete())
             return json_encode(array("id"=>$id));
         

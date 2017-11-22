@@ -25,6 +25,9 @@
 
                     {!! Form::label('name', 'Name') !!}
                     {!! Form::input('text', 'name', null, ['class'=>'form-control', 'autofocus', 'placeholder'=>'Name']) !!}
+                    
+                    {!! Form::label('slug', 'Slug') !!}
+                    {!! Form::input('text', 'slug', null, ['class'=>'form-control', 'placeholder'=>'Slug']) !!}
 
                     {!! Form::label('description', 'Description') !!}
                     {!! Form::textarea('description', null, ['class'=>'form-control', 'placeholder'=>'Description']) !!}
@@ -34,21 +37,20 @@
 
                     {!! Form::label('rating', 'Rating') !!}
                     <br/>
-                    {!! Form::radio('rating', '1', ['class'=>'form-control']) !!} 1
-                    {!! Form::radio('rating', '2', ['class'=>'form-control']) !!} 2
-                    {!! Form::radio('rating', '3', ['class'=>'form-control']) !!} 3
-                    {!! Form::radio('rating', '4', ['class'=>'form-control']) !!} 4
-                    {!! Form::radio('rating', '5', ['class'=>'form-control']) !!} 5  
+                    
+                    @foreach(\App\Film::ratings() as $key=>$value)
+                        {!! Form::radio('rating', $key, ['class'=>'form-control']) !!} {{$value}}
+                    @endforeach
                     <br/>
 
                     {!! Form::label('ticket_price', 'Ticket Price') !!}
                     {!! Form::input('text', 'ticket_price', null, ['class'=>'form-control', 'placeholder'=>'Ticket Price']) !!}                    
 
                     {!! Form::label('country_id', 'Country') !!}
-                    {!! Form::select('country_id', array('' => 'Country', 'L' => 'Large', 'S' => 'Small'), null, ['class'=>'form-control', 'placeholder'=>'Country']) !!}
+                    {!! Form::select('country_id', $countries, null, ['class'=>'form-control', 'placeholder'=>'Country']) !!}
 
-                    {!! Form::label('genre_id', 'Genre') !!}
-                    {!! Form::select('genre_id', array('' => 'Genre', 'L' => 'Large', 'S' => 'Small'), null, ['class'=>'form-control', 'placeholder'=>'Genre']) !!}
+                    {!! Form::label('genres[]', 'Genre') !!}
+                    {!! Form::select('genres[]', $genres, null, ['multiple'=> true, 'class'=>'form-control', 'placeholder'=>'Genre']) !!}
 
                     {!! Form::label('photo', 'Photo') !!}
                     {!! Form::file('photo', ['class'=>'form-control']) !!}
@@ -69,25 +71,29 @@
                 </div>
 
                 <div class="panel-body">
-                    <div class="col-sm-1">
-                        <div class="thumbnail">
-                            <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
-                        </div>
-                        <!-- /thumbnail -->
-                    </div>
-                    <!-- /col-sm-1 -->
-                    <div class="col-sm-10">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <strong>myusername</strong> <span class="text-muted">commented 5 days ago</span>
+                    @foreach($film->comments as $comment)
+                    <div class="row">
+                        <div class="col-sm-1">
+                            <div class="thumbnail">
+                                <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
                             </div>
-                            <div class="panel-body">
-                                Panel content
-                            </div>
-                            <!-- /panel-body -->
+                            <!-- /thumbnail -->
                         </div>
-                        <!-- /panel panel-default -->
+                        <!-- /col-sm-1 -->
+                        <div class="col-sm-10">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>{{$comment->user->name}}</strong> <span class="text-muted">commented at {{$comment->created_at}}</span>
+                                </div>
+                                <div class="panel-body">
+                                    {{$comment->commentary}}
+                                </div>
+                                <!-- /panel-body -->
+                            </div>
+                            <!-- /panel panel-default -->
+                        </div>
                     </div>
+                    @endforeach
                 </div>
                 
                 <div class="panel-body">
