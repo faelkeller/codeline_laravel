@@ -50,7 +50,7 @@
                  @if (!Auth::guest())
                 <!-- Left Side Of Navbar -->                
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/films') }}">Films</a></li>
+                    <li><a href="{{ url('admin/films') }}">Films</a></li>
                     <li><a href="{{ url('admin/countries') }}">Countries</a></li>
                     <li><a href="{{ url('admin/genres') }}">Genres</a></li>
                 </ul>

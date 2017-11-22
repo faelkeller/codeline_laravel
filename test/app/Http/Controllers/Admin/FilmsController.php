@@ -26,7 +26,7 @@ class FilmsController extends Controller {
     public function create() {
         $countries = \App\Country::lists("name", "id");
         $genres = \App\Genre::lists("name", "id");
-        return view("films.form", ['countries' => $countries, 'genres' => $genres]);
+        return view("admin.films.form", ['countries' => $countries, 'genres' => $genres]);
     }
 
     /**
@@ -78,7 +78,7 @@ class FilmsController extends Controller {
         $film = \App\Film::findOrFail($id);
         $countries = \App\Country::lists("name", "id");
         $genres = \App\Genre::lists("name", "id");
-        return view("films.form", ['film' => $film, 'countries' => $countries, 'genres' => $genres]);
+        return view("admin.films.form", ['film' => $film, 'countries' => $countries, 'genres' => $genres]);
     }
 
     /**
@@ -91,7 +91,7 @@ class FilmsController extends Controller {
         $film = \App\Film::findOrFail($id);
         $countries = \App\Country::lists("name", "id");
         $genres = \App\Genre::lists("name", "id");
-        return view("films.form", ['film' => $film, 'countries' => $countries, 'genres' => $genres]);
+        return view("admin.films.form", ['film' => $film, 'countries' => $countries, 'genres' => $genres]);
     }
 
     /**
@@ -104,14 +104,15 @@ class FilmsController extends Controller {
     public function update(Request $request, $id) {
         $film = \App\Film::findOrFail($id);
         
-        $image = $request->file('photo');
-        $name = time() . '.' . $image->getClientOriginalExtension();
-        $destinationPath = public_path('/avatars');
-        $image->move($destinationPath, $name);
-
         $inputs = $request->all();
         
-        $inputs['photo'] = $name;
+        if ($request->file('photo')){
+            $image = $request->file('photo');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/avatars');
+            $image->move($destinationPath, $name);
+            $inputs['photo'] = $name;
+        }
 
         if ($film->update($inputs)) {
             if (isset($inputs['genres']))

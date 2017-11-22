@@ -32,7 +32,7 @@ class FilmsController extends Controller {
     public function create() {
         $countries = \App\Country::lists("name", "id");
         $genres = \App\Genre::lists("name", "id");
-        return view("films.form", ['countries' => $countries, 'genres'=>$genres]);
+        return view("front.films.form", ['countries' => $countries, 'genres'=>$genres]);
     }
 
     /**
@@ -85,7 +85,7 @@ class FilmsController extends Controller {
         $film = \App\Film::findOrFail($id);
         $countries = \App\Country::lists("name", "id");
         $genres = \App\Genre::lists("name", "id");
-        return view("films.form", ['film' => $film, 'countries' => $countries, 'genres'=>$genres]);
+        return view("front.films.form", ['film' => $film, 'countries' => $countries, 'genres'=>$genres]);
     }
 
     
