@@ -24,7 +24,7 @@ $(document).ready(function () {
             }
             
             var msg_error = "Error "+operation+" film!!";
-            var element_error = $(".panel-body");
+            var element_error = $(this).closest(".panel-body");
             var type = $(this).attr("type");
             
             var content_type = "application/x-www-form-urlencoded; charset=UTF-8";
