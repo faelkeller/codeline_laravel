@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-        $("form").submit(function (e) {
+        $("form").not($("form[action*='login']")).submit(function (e) {
             var url = $(this).attr("action");
             
             var method = $("[name='_method']").val();

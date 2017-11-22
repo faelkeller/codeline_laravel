@@ -13,8 +13,14 @@ class FilmsController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
-        $films = \App\Film::simplePaginate(1);
+    public function index($slug = null) {
+        
+        if ($slug)
+            $films = \App\Film::where("slug", $slug)->simplePaginate(1);
+        else 
+            $films = \App\Film::simplePaginate(1);
+        
+        
         return view('front.films.list', ['films' => $films]);
     }
 

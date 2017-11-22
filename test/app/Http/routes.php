@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Route::get('films', 'FilmsController@index');
 Route::get('films/create', 'FilmsController@create');
+Route::get('films/{slug}', 'FilmsController@index')->where('slug', '[a-z]+');
 Route::get('films/{id}', 'FilmsController@show');
 Route::post('films', 'FilmsController@store');
 
