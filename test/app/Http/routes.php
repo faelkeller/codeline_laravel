@@ -26,6 +26,7 @@ Route::get('films/create', 'FilmsController@create');
 Route::get('films/{id}/edit', 'FilmsController@edit');
 Route::get('films/{id}', 'FilmsController@show');
 Route::post('films', 'FilmsController@store');
+Route::patch('films/{id}', 'FilmsController@update');
 
 Route::group(['middleware' => 'App\Http\Middleware\Admin'], function() {
     Route::group(['prefix' => 'admin'], function () {

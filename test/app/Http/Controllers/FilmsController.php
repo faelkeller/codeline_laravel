@@ -108,8 +108,12 @@ class FilmsController extends Controller {
      */
     public function destroy($id) {
         $film = \App\Films::findOrFail($id);
-        $film->delete();
-        return redirect('films');
+        if ($film->delete())
+            return json_encode(array("id"=>$id));
+        
+        return json_encode(array());
+        
+        
     }
 
 }

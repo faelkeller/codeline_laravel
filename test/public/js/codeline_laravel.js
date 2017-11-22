@@ -2,21 +2,60 @@ $(document).ready(function () {
 
         $("form").submit(function (e) {
             var url = $(this).attr("action");
-            var msg_error = "Error insert film!!";
+            
+            var method = $("[name='_method']").val();
+            
+            var operation = "insert";
+            var operation_pass = "inserted";
+            
+            switch(method){
+                case 'POST':
+                    operation = "insert";
+                    operation_pass = "inserted"; 
+                    break;
+                case 'PATCH':
+                    operation = "update";
+                    operation_pass = "updated";
+                    break;
+                case 'DELETE':
+                    operation = "delete";
+                    operation_pass = "deleted";
+                    break;
+            }
+            
+            var msg_error = "Error "+operation+" film!!";
             var element_error = $(".panel-body");
+            var type = $(this).attr("type");
+            
+            var content_type = "application/x-www-form-urlencoded; charset=UTF-8";
+            var process_data = true;
+            
+            var data;
+            
+            if (type != undefined && type == "create"){
+                content_type = false;
+                process_data = false;
+                data = new FormData(this);
+            } else{
+                data = $(this).serialize();
+            }
+                
             
             $.ajax({
-                type: "POST",
+                type: 'POST',
                 url: url,
-                data: new FormData(this),
+                data: data,
                 dataType: "json",
-                contentType: false,
-                processData: false,
+                contentType: content_type,
+                processData: process_data,
                 success: function (data){
-                    if (data.id != undefined && data.id != "")
-                        show_message(element_error, true, "Film inserted successfully!!", true);
-                    else
-                    {
+                    if (data.id != undefined && data.id != ""){
+                        show_message(element_error, true, "Register "+operation_pass+" successfully!!", true);
+                        
+                        if (method == "DELETE")
+                            $("tr[id="+data.id+"]").remove();
+                        
+                    } else {
                         if (data.msg != undefined)
                             msg_error = get_msg_errror(data.msg);
                         
@@ -53,7 +92,7 @@ $(document).ready(function () {
     }
 
     function random_date(){
-        date = new Date( + (new Date()) - Math.floor(Math.random() * 10000000000));
+        var date = new Date( + (new Date()) - Math.floor(Math.random() * 10000000000));
         var d = date.getDate();
         var m = date.getMonth() + 1;
         var y = date.getFullYear();

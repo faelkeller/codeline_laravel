@@ -29,20 +29,20 @@
                         </thead>
                         <tbody>
                             @foreach($films as $film)
-                            <tr>
+                            <tr id='{{$film->id}}'>
                                 <td>{{$film->id}}</td>
                                 <td>{{$film->name}}</td>
                                 <td>{{$film->release_date}}</td>
                                 @if (!Auth::guest())
                                     <td>
                                         @if(Request::is('admin/*'))
-                                        <a href="{{url('films/')}}/{{$film->id}}/edit" class="btn btn-default btn-sm">Edit</a>
+                                        <a href="{{url('admin/films/')}}/{{$film->id}}/edit" class="btn btn-default btn-sm">Edit</a>
 
-                                        {!! Form::open(['method'=>'DELETE', 'url'=>'films/'.$film->id, 'style'=>'display:inline;']) !!}
+                                        {!! Form::open(['method'=>'DELETE', 'url'=>'admin/films/'.$film->id, 'style'=>'display:inline;']) !!}
                                         <button type="submit" class="btn btn-default btn-sm">Delete</button>
                                         {!! Form::close() !!}
                                         @endif
-                                        <a href="{{url('films/')}}/{{$film->id}}" class="btn btn-default btn-sm">Show</a>
+                                        <a href="{{url('admin/films/')}}/{{$film->id}}" class="btn btn-default btn-sm">Show</a>
                                     </td>
                                     
                                 @endif

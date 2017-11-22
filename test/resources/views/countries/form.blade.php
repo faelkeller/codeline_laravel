@@ -17,7 +17,7 @@
                     @if(!Request::is('*/create'))
                     {!! Form::model($country, ['method'=>'PATCH', 'url'=> 'admin/countries/'.$country->id]) !!}
                     @else
-                    {!! Form::open(['url'=> 'admin/countries']) !!}
+                    {!! Form::open(['url'=> 'admin/countries', 'type'=>'create']) !!}
                     @endif
 
 

@@ -21,7 +21,7 @@
                         </thead>
                         <tbody>
                             @foreach($countries as $country)
-                            <tr>
+                             <tr id='{{$country->id}}'>
                                 <td>{{$country->id}}</td>
                                 <td>{{$country->name}}</td>                                
                                 <td>                                    

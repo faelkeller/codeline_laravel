@@ -19,7 +19,7 @@
                     @if(!Request::is('*/create'))
                     {!! Form::model($film, ['method'=>'PATCH', 'files' => true, 'url'=> 'films/'.$film->id]) !!}
                     @else
-                    {!! Form::open(['url'=> 'films', 'files' => true]) !!}
+                    {!! Form::open(['url'=> 'films', 'files' => true, 'type'=>'create']) !!}
                     @endif
 
 
