@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use Validator;
 
-class FilmsController extends Controller
-{
+class FilmsController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $films =  \App\Films::get();
-        return view('films.list', ['films'=>$films]);
+    public function index() {
+        $films = \App\Films::get();
+        return view('films.list', ['films' => $films]);
     }
 
     /**
@@ -24,8 +23,7 @@ class FilmsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         return view("films.form");
     }
 
@@ -35,8 +33,24 @@ class FilmsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
+        
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'description' => 'required',
+            'release_date' => 'date|required',
+            'ticket_price' => 'required|numeric|max:5|min:1',
+            'rating' => 'required|max:5|min:1',
+            'country_id' => 'required',
+            'genre_id' => 'required',
+            'photo' => 'file|image',
+            
+        ]);
+
+        if ($validator->fails()) {
+            return json_encode(array("msg"=>$validator->messages()));
+        }
+
         return \App\Films::create($request->all());
     }
 
@@ -46,8 +60,7 @@ class FilmsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         $film = \App\Films::findOrFail($id);
         return view("films.form", ['film' => $film]);
     }
@@ -58,8 +71,7 @@ class FilmsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $film = \App\Films::findOrFail($id);
         return view("films.form", ['film' => $film]);
     }
@@ -71,12 +83,11 @@ class FilmsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $film = \App\Films::findOrFail($id);
         if ($film->update($request->all()))
             return $film->toJson();
-        
+
         return json_encode(array());
     }
 
@@ -86,10 +97,10 @@ class FilmsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $film = \App\Films::findOrFail($id);
         $film->delete();
         return redirect('films');
     }
+
 }
