@@ -43,7 +43,7 @@ class FilmsController extends Controller {
             'rating' => 'required|max:5|min:1',
             'country_id' => 'required',
             'genre_id' => 'required',
-            'photo' => 'file|image',
+            'photo' => 'required|file|image',
             
         ]);
 

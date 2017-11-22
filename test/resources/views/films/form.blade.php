@@ -17,9 +17,9 @@
                 <div class="panel-body">
 
                     @if(!Request::is('*/create'))
-                    {!! Form::model($film, ['method'=>'PATCH', 'url'=> 'films/'.$film->id]) !!}
+                    {!! Form::model($film, ['method'=>'PATCH', 'files' => true, 'url'=> 'films/'.$film->id]) !!}
                     @else
-                    {!! Form::open(['url'=> 'films']) !!}
+                    {!! Form::open(['url'=> 'films', 'files' => true]) !!}
                     @endif
 
 
@@ -75,13 +75,15 @@
         $("form").submit(function (e) {
             var url = $(this).attr("action");
             var msg_error = "Error insert film!!";
-            var element_error = $(".panel-body"); 
+            var element_error = $(".panel-body");
             
             $.ajax({
                 type: "POST",
                 url: url,
-                data: $(this).serialize(),
+                data: new FormData(this),
                 dataType: "json",
+                contentType: false,
+                processData: false,
                 success: function (data){
                     if (data.id != undefined && data.id != "")
                         show_message(element_error, true, "Film inserted successfully!!", true);
