@@ -28,6 +28,9 @@ Route::get('films/{id}', 'FilmsController@show');
 Route::post('films', 'FilmsController@store');
 Route::patch('films/{id}', 'FilmsController@update');
 
+Route::post('comments', 'CommentsController@store');
+
+
 Route::group(['middleware' => 'App\Http\Middleware\Admin'], function() {
     Route::group(['prefix' => 'admin'], function () {
         Route::resource('films', 'FilmsController');

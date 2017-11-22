@@ -61,10 +61,67 @@
                     {!! Form::close() !!}
                 </div>
             </div>
+
+            @if (!Request::is('*/create') && !Request::is('*/edit'))
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Comments
+                </div>
+
+                <div class="panel-body">
+                    <div class="col-sm-1">
+                        <div class="thumbnail">
+                            <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                        </div>
+                        <!-- /thumbnail -->
+                    </div>
+                    <!-- /col-sm-1 -->
+                    <div class="col-sm-10">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <strong>myusername</strong> <span class="text-muted">commented 5 days ago</span>
+                            </div>
+                            <div class="panel-body">
+                                Panel content
+                            </div>
+                            <!-- /panel-body -->
+                        </div>
+                        <!-- /panel panel-default -->
+                    </div>
+                </div>
+                
+                <div class="panel-body">
+                    <div class="col-sm-1">
+                        &nbsp;
+                    </div>
+                    <!-- /col-sm-1 -->
+                    <div class="col-sm-10">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <strong>New commentary</strong>
+                            </div>
+                            <div class="panel-body">
+                                {!! Form::open(['url'=> 'comments']) !!}
+                                    {!! Form::textarea('commentary', null, ['class'=>'form-control', 'rows' => 2, 'placeholder'=>'Commentary']) !!}
+                                    {!! Form::input('hidden', 'film_id', $film->id) !!}
+                                    <br/>
+                                    {!! Form::submit('Submit', ['class'=>'btn btn-primary']) !!}
+                                {!! Form::close() !!}
+                            </div>
+                            <!-- /panel-body -->
+                        </div>
+                        <!-- /panel panel-default -->
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            @endif
         </div>
     </div>
 </div>
 @if (!Request::is('*/create') && !Request::is('*/edit'))
-    <script src="{{ asset('js/codeline_laravel_disabled.js') }}"></script>
+<script src="{{ asset('js/codeline_laravel_disabled.js') }}"></script>
 @endif
 @endsection
