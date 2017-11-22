@@ -103,11 +103,20 @@ class FilmsController extends Controller {
      */
     public function update(Request $request, $id) {
         $film = \App\Film::findOrFail($id);
+        
+        $image = $request->file('photo');
+        $name = time() . '.' . $image->getClientOriginalExtension();
+        $destinationPath = public_path('/avatars');
+        $image->move($destinationPath, $name);
 
         $inputs = $request->all();
+        
+        $inputs['photo'] = $name;
 
         if ($film->update($inputs)) {
-            $film->genres()->sync($inputs['genres']);
+            if (isset($inputs['genres']))
+                $film->genres()->sync($inputs['genres']);
+            
             return $film->toJson();
         }
 

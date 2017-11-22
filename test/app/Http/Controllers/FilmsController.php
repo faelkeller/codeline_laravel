@@ -14,7 +14,7 @@ class FilmsController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $films = \App\Film::get();        
+        $films = \App\Film::simplePaginate(1);
         return view('front.films.list', ['films' => $films]);
     }
 

@@ -8,6 +8,8 @@ $(document).ready(function () {
             var operation = "insert";
             var operation_pass = "inserted";
             
+            var enctype = $(this).attr("enctype");
+            
             switch(method){
                 case 'POST':
                     operation = "insert";
@@ -32,7 +34,7 @@ $(document).ready(function () {
             
             var data;
             
-            if (type != undefined && type == "create"){
+            if (enctype != undefined && enctype == "multipart/form-data"){
                 content_type = false;
                 process_data = false;
                 data = new FormData(this);

@@ -17,7 +17,7 @@
                 <div class="panel-body">
 
                     @if(!Request::is('*/create'))
-                    {!! Form::model($film, ['method'=>'PATCH', 'files' => true, 'url'=> 'films/'.$film->id]) !!}
+                    {!! Form::model($film, ['method'=>'PATCH', 'files' => true, 'url'=> 'admin/films/'.$film->id]) !!}
                     @else
                     {!! Form::open(['url'=> 'films', 'files' => true, 'type'=>'create']) !!}
                     @endif
